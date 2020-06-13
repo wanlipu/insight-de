@@ -2,3 +2,6 @@
 
 # sample data folder
 data
+
+# pyc files
+*.pyc

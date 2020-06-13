@@ -6,7 +6,7 @@ taxi_table_drop = "DROP TABLE IF EXISTS taxi"
 # CREATE TABLES
 
 taxi_table_create = ("""
-    CREATE TABLE songplays
+    CREATE TABLE taxi
     (trip_id text PRIMARY KEY, 
      taxi_id text,
      trip_start timestamp,

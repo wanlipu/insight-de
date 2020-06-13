@@ -27,12 +27,14 @@ def create_database(dbname, newdb, user, pwd, host_ip="127.0.0.1", port="5432"):
 def drop_tables(cur, conn):
     for query in drop_table_queries:
         cur.execute(query)
+        print(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
     for query in create_table_queries:
         cur.execute(query)
+        print(query)
         conn.commit()
 
 
@@ -48,8 +50,10 @@ def main():
 if __name__ == "__main__":
     if len(sys.argv) == 7:
         dbname, newdb, user, pwd, host_ip, port= sys.argv[1:]
+        print('hi')
 
         cur, conn = create_database(dbname, newdb, user, pwd, host_ip, port)
+
         drop_tables(cur, conn)
         create_tables(cur, conn)
 

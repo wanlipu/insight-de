@@ -7,7 +7,7 @@ from sql_queries import *
 
 def process_file(cur, conn, filepath):
     """
-    process file in csv format
+    process file in csv format, insert processed data into database
     
     Args:
         cur: cursor to the database

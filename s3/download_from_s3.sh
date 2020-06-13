@@ -1,1 +1,1 @@
-aws s3 cp s3://insight-wp/taxi-subset/subset1_2013.csv ./subset1_2013.csv
+aws s3 cp s3://insight-wp/taxi-subset/subset1_2013.csv ../data/subset1_2013.csv

@@ -10,7 +10,7 @@ if __name__ == "__main__":
         
         bootstrap_servers = sys.argv[1:4] # xxx.xxx.xx.xxx:9092, .., ..
         topic = sys.argv[4]
-        cassandra_hosts = [5:]
+        cassandra_hosts = sys.argv[5:]
 
         consumer = KafkaConsumer(
             topic = topic,

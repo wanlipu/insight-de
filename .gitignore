@@ -5,3 +5,5 @@ data
 
 # pyc files
 *.pyc
+
+*.cfg

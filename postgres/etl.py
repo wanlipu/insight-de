@@ -21,7 +21,9 @@ def process_file(cur, conn, filepath):
     # https://stackoverflow.com/questions/17444679/reading-a-huge-csv-file
     df = pd.read_csv(filepath)
 
-    df = df[['Trip ID', 'Taxi ID', 'Trip Start Timestamp', 'Trip End Timestamp', 'Trip Seconds', 'Trip Miles']]
+    # df = df[['Trip ID', 'Taxi ID', 'Trip Start Timestamp', 'Trip End Timestamp', 'Trip Seconds', 'Trip Miles']]
+    df = df[['Trip ID', 'Taxi ID', 'Trip Seconds', 'Trip Miles']]
+
     df.dropna(inplace=True)
 
     # insert trip records

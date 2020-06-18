@@ -9,8 +9,6 @@ taxi_table_create = ("""
     CREATE TABLE taxi
     (trip_id text PRIMARY KEY, 
      taxi_id text,
-     trip_start timestamp,
-     trip_end timestamp,
      trip_sec int,
      trip_mile float)
 """)
@@ -19,8 +17,8 @@ taxi_table_create = ("""
 # INSERT RECORDS
 
 taxi_table_insert = ("""
-    INSERT INTO taxi (trip_id, taxi_id, trip_start, trip_end, trip_sec, trip_mile)
-    VALUES (%s, %s, %s, %s, %s, %s)
+    INSERT INTO taxi (trip_id, taxi_id, trip_sec, trip_mile)
+    VALUES (%s, %s, %s, %s)
     ON CONFLICT (trip_id) 
     DO NOTHING;
 """)

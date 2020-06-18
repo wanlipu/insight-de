@@ -1,6 +1,6 @@
 import sys
 import psycopg2
-from sql_queries import create_table_queries, drop_table_queries
+from helper import table_stats
 
 
 def connect_database(newdb, user, pwd, host_ip="127.0.0.1", port="5432"):
@@ -34,88 +34,69 @@ def connect_database(newdb, user, pwd, host_ip="127.0.0.1", port="5432"):
     # connect to insightde database
     conn = psycopg2.connect(f"host={host_ip} port={port} dbname={newdb} user={user} password={pwd}")
     cur = conn.cursor()
-    print(conn)
+    # print(conn)
     
     return cur, conn
 
 
-def drop_tables(cur, conn):
+def drop_tables(cur, conn, table):
     """
     drop tables in the database
     
     Args:
         cur: cursor to the database
         conn: connection to the database
+        table: table to be dropped
     
     Returns:
         None
     """
 
-    for query in drop_table_queries:
-        cur.execute(query)
-        conn.commit()
+    query = "DROP TABLE IF EXISTS {};"
+
+    cur.execute(query.format(table))
+    conn.commit()
 
 
-def create_tables(cur, conn):
+def create_tables(cur, conn, table):
     """
     create tables in the database
     
     Args:
         cur: cursor to the database
         conn: connection to the database
+        table: table to be created
     
     Returns:
         None
     """
 
-    for query in create_table_queries:
-        cur.execute(query)
-        conn.commit()
+    query = ("""
+    CREATE TABLE {}
+    (trip_id text PRIMARY KEY, 
+     taxi_id text,
+     trip_sec int,
+     trip_mile float)
+     """.format(table))
 
+    cur.execute(query)
+    conn.commit()
 
-def query(cur):
-
-    cur.execute("SELECT count(*) FROM taxi;")
-    
-    for result in cur.fetchall():
-        print(f'There are {result[0]} rows in the table')
-
-    # cur.execute("SELECT COUNT(DISTINCT(trip_id)) FROM taxi;")
-    
-    # for result in cur.fetchall():
-    #     print(f'There are {result[0]} distinct trips')
-
-    cur.execute("SELECT COUNT(DISTINCT(taxi_id)) FROM taxi;")
-    
-    for result in cur.fetchall():
-        print(f'There are {result[0]} distinct taxi')
-
-    cur.execute("SELECT SUM(trip_mile) FROM taxi;")
-    
-    for result in cur.fetchall():
-        print(f'Sum of all trip distance is {result[0]}')
-
-    cur.execute("SELECT SUM(trip_sec) FROM taxi;")
-    
-    for result in cur.fetchall():
-        print(f'Sum of all trip time is {result[0]} secs')
-
-def close_connection(conn, cur):
-    cur.close()
-    conn.close()
 
 if __name__ == "__main__":
-    if len(sys.argv) == 6:
+    if len(sys.argv) == 7:
         # parse command line inputs
-        dbname, user, pwd, host_ip, port= sys.argv[1:]
+        dbname, user, pwd, host_ip, port, table = sys.argv[1:]
 
         cur, conn = connect_database(dbname, user, pwd, host_ip, port)
 
-        # drop_tables(cur, conn)
-        # create_tables(cur, conn)
+        drop_tables(cur, conn, table)
+        create_tables(cur, conn, table)
 
-        query(cur)
+        table_stats(cur, table)
 
-        close_connection(conn, cur)
+        cur.close()
+        conn.close()
+
     else:
         print("Please check your inputs!")

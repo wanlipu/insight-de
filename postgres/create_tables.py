@@ -1,42 +1,6 @@
 import sys
 import psycopg2
-from helper import table_stats
-
-
-def connect_database(newdb, user, pwd, host_ip="127.0.0.1", port="5432"):
-    """
-    create a new database on postgres server on aws
-    
-    Args:
-        dbname: name of the database which is to be created
-        user: user name
-        pwd: user password
-        host_ip: ip for database server
-        port: port for database server
-    
-    Returns:
-        cur: cursor to the database
-        conn: connection to the database
-    """
-
-    # # connect to default database
-    # conn = psycopg2.connect(f"host={host_ip} port={port} dbname={dbname} user={user} password={pwd}")
-    # conn.set_session(autocommit=True)
-    # cur = conn.cursor()
-    
-    # # create database with UTF8 encoding
-    # cur.execute(f"DROP DATABASE IF EXISTS {newdb}")
-    # cur.execute(f"CREATE DATABASE {newdb} WITH ENCODING 'utf8' TEMPLATE template0")
-
-    # # close connection to default database
-    # conn.close()    
-    
-    # connect to insightde database
-    conn = psycopg2.connect(f"host={host_ip} port={port} dbname={newdb} user={user} password={pwd}")
-    cur = conn.cursor()
-    # print(conn)
-    
-    return cur, conn
+from helper import process_file, table_stats
 
 
 def drop_tables(cur, conn, table):
@@ -73,7 +37,8 @@ def create_tables(cur, conn, table):
 
     query = ("""
     CREATE TABLE {}
-    (trip_id text PRIMARY KEY, 
+    (id SERIAL PRIMARY KEY,
+     trip_id text, 
      taxi_id text,
      trip_sec int,
      trip_mile float)
@@ -84,16 +49,21 @@ def create_tables(cur, conn, table):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 7:
+    if len(sys.argv) == 8:
         # parse command line inputs
-        dbname, user, pwd, host_ip, port, table = sys.argv[1:]
+        dbname, user, pwd, host_ip, port, table, filepath = sys.argv[1:]
 
         cur, conn = connect_database(dbname, user, pwd, host_ip, port)
 
         drop_tables(cur, conn, table)
         create_tables(cur, conn, table)
 
+        # load sample data
+        process_file(cur, conn, table, filepath=filepath)
+
+        print('*****PostgreSQL****')
         table_stats(cur, table)
+        print('*******************')
 
         cur.close()
         conn.close()

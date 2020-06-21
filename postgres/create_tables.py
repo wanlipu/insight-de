@@ -1,6 +1,6 @@
 import sys
 import psycopg2
-from helper import process_file, table_stats
+from helper import connect_database, process_file, table_stats
 
 
 def drop_tables(cur, conn, table):

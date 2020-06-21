@@ -1,4 +1,4 @@
-curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+curl -X POST http://<server_ip>:8083/connectors -H "Content-Type: application/json" -d '{
       "name": "jdbc_source_postgres_01",
       "config": {
               "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
@@ -7,6 +7,7 @@ curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json
               "connection.password": "<password>",
               "topic.prefix": "",
               "table.whitelist": "<table1>, <table2>",
-	      "mode": "bulk"
+	      "mode":"incrementing",
+              "incrementing.column.name":"id"
               }
-      }'
+      }' &> /dev/null

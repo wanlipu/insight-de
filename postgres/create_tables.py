@@ -53,8 +53,10 @@ if __name__ == "__main__":
         # parse command line inputs
         dbname, user, pwd, host_ip, port, table, filepath = sys.argv[1:]
 
+        # connect to database
         cur, conn = connect_database(dbname, user, pwd, host_ip, port)
 
+        # drop table and create table
         drop_tables(cur, conn, table)
         create_tables(cur, conn, table)
 

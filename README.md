@@ -15,6 +15,10 @@ Real-time synchronization from PostgreSQL to Amazon Redshift with Kafka Connect 
 
 ## Architecture
 
+<img src="https://github.com/wanlipu/insight-de/blob/master/images/pipeline.png" alt="architecture" />
+
+
+
 ## Dataset
 
 ## Engineering challenges

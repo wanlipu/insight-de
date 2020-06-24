@@ -21,11 +21,12 @@ When there are any changes in the source database, the streaming system will cap
 
 Deploy Kafka Brokeer cluster and Kafka Connect cluster on AWS EC2 instances with [Ansible Playbook](https://docs.confluent.io/current/installation/cp-ansible/index.html)
 - [Prepare Ansible Playbooks for Confluent Platform](https://docs.confluent.io/current/installation/cp-ansible/ansible-inventory.html)
-  - An example of `hosts.yml` is shown in `kafka/cp-ansible/hosts.yml `
+  - An example of `hosts.yml` is shown in `kafka/cp-ansible/hosts.yml`
 - [Install Ansible Playbooks for Confluent Platform](https://docs.confluent.io/current/installation/cp-ansible/ansible-install.html)
   - `ansible-playbook -i hosts.yml all.yml`
 - [Installing the Redshift JDBC Driver](https://docs.confluent.io/current/connect/kafka-connect-aws-redshift/index.html)
   - Download the latest JDBC 4.0 driver JAR file that comes with the AWS SDK from [here](https://docs.aws.amazon.com/redshift/latest/mgmt/configure-jdbc-connection.html#jdbc-previous-versions).
+  - Save the JDBC driver JAR file to `/<plugin.path>/kafka-connect-jdbc/`
 
 Postgres Node
 - [Simply Install: PostgreSQL](https://blog.insightdatascience.com/simply-install-postgresql-58c1e4ebf252)

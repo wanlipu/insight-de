@@ -8,4 +8,4 @@ curl -X POST http://<server_ip>:8083/connectors -H "Content-Type: application/js
               "topics": "<topic1>, <topic2>",
 	      "auto.create": "true"
               }
-      }'
+      }' &> /dev/null
